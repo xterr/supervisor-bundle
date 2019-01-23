@@ -79,7 +79,7 @@ class AnnotationSupervisorExporter implements IAnnotationSupervisorExporter
                 $oAnnotation->server    = $aCommandConfig['server']    ?? NULL;
                 $oAnnotation->params    = $aCommandConfig['params']    ?? NULL;
                 $oAnnotation->processes = $aCommandConfig['processes'] ?? NULL;
-                $oAnnotation->includeDefaultParams = $aCommandConfig['includeDefaultParams'] ?? NULL;
+                $oAnnotation->includeDefaultParams = $aCommandConfig['includeDefaultParams'] ?? TRUE;
 
                 $annotations[] = $oAnnotation;
             }
