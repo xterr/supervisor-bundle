@@ -1,0 +1,8 @@
+services:
+    xterr.supervisor_bundle.annotation_supervisor_exporter:
+        class: Xterr\SupervisorBundle\Exporter\AnnotationSupervisorExporter
+        arguments:
+            - "@annotation_reader"
+            - "%xterr.supervisor_bundle.exporter_config%"
+
+    Xterr\SupervisorBundle\Contracts\Exporter\IAnnotationSupervisorExporter: '@xterr.supervisor_bundle.annotation_supervisor_exporter'
