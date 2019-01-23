@@ -1,6 +1,6 @@
 {
     "name": "xterr/supervisor-bundle",
-    "type": "library",
+    "type": "symfony-bundle",
     "description": "Symfony bundle which allows you to use @Supervisor annotations to configure how Supervisor runs your console commands.",
     "keywords": ["supervisor", "supervisord", "symfony", "bundle"],
     "license": "MIT",
