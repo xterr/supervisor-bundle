@@ -29,4 +29,9 @@ class Supervisor
      * @var string
      */
     public $server;
+
+    /**
+     * @var bool
+     */
+    public $includeDefaultParams = TRUE;
 }

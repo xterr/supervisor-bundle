@@ -22,7 +22,20 @@ class Configuration implements ConfigurationInterface
                         ->variableNode('program')->end()
                         ->scalarNode('executor')->example('php')->end()
                         ->scalarNode('console')->example('bin/console')->end()
+                        ->scalarNode('default_params')->example('--no-debug')->end()
+                        ->arrayNode('extra_commands')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('name')->end()
+                                    ->scalarNode('params')->end()
+                                    ->scalarNode('processes')->end()
+                                    ->scalarNode('executor')->end()
+                                    ->scalarNode('server')->end()
+                                ->end()
+                            ->end()
+                        ->end()
                     ->end()
+                ->end()
             ->end();
         return $treeBuilder;
     }

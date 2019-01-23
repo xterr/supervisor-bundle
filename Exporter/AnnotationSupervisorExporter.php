@@ -68,8 +68,29 @@ class AnnotationSupervisorExporter implements IAnnotationSupervisorExporter
 
     private function toSupervisorAnnotations(Command $command, $server)
     {
-        $annotations = $this->reader->getClassAnnotations(new \ReflectionClass($command));
-        $filtered    = array_filter($annotations, function ($annotation) use ($server)
+        foreach ($this->config['extra_commands'] as $aCommandConfig)
+        {
+            $annotations = [];
+
+            if ($command->getName() === $aCommandConfig['name'])
+            {
+                $oAnnotation            = new SupervisorAnnotation();
+                $oAnnotation->executor  = $aCommandConfig['executor']  ?? NULL;
+                $oAnnotation->server    = $aCommandConfig['server']    ?? NULL;
+                $oAnnotation->params    = $aCommandConfig['params']    ?? NULL;
+                $oAnnotation->processes = $aCommandConfig['processes'] ?? NULL;
+                $oAnnotation->includeDefaultParams = $aCommandConfig['includeDefaultParams'] ?? NULL;
+
+                $annotations[] = $oAnnotation;
+            }
+        }
+
+        if (empty($annotations))
+        {
+            $annotations = $this->reader->getClassAnnotations(new \ReflectionClass($command));
+        }
+
+        $filtered = array_filter($annotations, function ($annotation) use ($server)
         {
             if ($annotation instanceof SupervisorAnnotation) {
                 return null === $server || $server === $annotation->server;
@@ -92,16 +113,23 @@ class AnnotationSupervisorExporter implements IAnnotationSupervisorExporter
 
     private function buildCommand($commandName, $environment, SupervisorAnnotation $annotation)
     {
-        if ($annotation->executor) {
+        if ($annotation->executor)
+        {
             $executor = $annotation->executor;
-        } else if (isset($this->config['executor'])) {
+        }
+        else if (isset($this->config['executor']))
+        {
             $executor = $this->config['executor'];
-        } else {
+        }
+        else
+        {
             $executor = '';
         }
+
         $console = isset($this->config['console']) ? " {$this->config['console']}" : '';
-        $params = $annotation->params ? " {$annotation->params}" : '';
-        $env = $environment ? " --env=$environment" : '';
+        $params  = ($annotation->params ? " {$annotation->params}" : '') . ($annotation->includeDefaultParams ? ' ' . $this->config['default_params'] : '');
+        $env     = $environment ? " --env=$environment" : '';
+
         return $executor . $console . ' ' . $commandName . $params . $env;
     }
 
@@ -111,10 +139,14 @@ class AnnotationSupervisorExporter implements IAnnotationSupervisorExporter
         $config->registerProcessor(new CommandConfigurationProcessor);
         return array_reduce($programs, function (Configuration $config, $program) {
             $command = new \Francodacosta\Supervisord\Command;
-            foreach ($program as $k => $v) {
+
+            foreach ($program as $k => $v)
+            {
                 $command->set($k, $v);
             }
+
             $config->add($command);
+
             return $config;
         }, $config);
     }

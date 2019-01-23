@@ -42,15 +42,22 @@ class DumpCommand extends Command
     private function parseOptions(InputInterface $input)
     {
         $options = [];
-        if ($user = $input->getOption('user')) {
+
+        if ($user = $input->getOption('user'))
+        {
             $options['user'] = $user;
         }
-        if ($env = $input->getOption('env')) {
+
+        if ($env = $input->getOption('env'))
+        {
             $options['environment'] = $env;
         }
-        if ($server = $input->getOption('server')) {
+
+        if ($server = $input->getOption('server'))
+        {
             $options['server'] = $server;
         }
+
         return $options;
     }
 }
