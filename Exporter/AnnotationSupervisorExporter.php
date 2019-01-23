@@ -68,10 +68,10 @@ class AnnotationSupervisorExporter implements IAnnotationSupervisorExporter
 
     private function toSupervisorAnnotations(Command $command, $server)
     {
+        $annotations = [];
+
         foreach ($this->config['extra_commands'] as $aCommandConfig)
         {
-            $annotations = [];
-
             if ($command->getName() === $aCommandConfig['name'])
             {
                 $oAnnotation            = new SupervisorAnnotation();
