@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('xterr_supervisor');
+        $rootNode = $treeBuilder->root('supervisor');
         $rootNode
             ->children()
                 ->arrayNode('exporter')
