@@ -6,3 +6,9 @@ services:
             - "%xterr.supervisor_bundle.exporter_config%"
 
     Xterr\SupervisorBundle\Contracts\Exporter\IAnnotationSupervisorExporter: '@xterr.supervisor_bundle.annotation_supervisor_exporter'
+
+    xterr.supervisor_bundle.command.dump:
+        class: Xterr\SupervisorBundle\Command\DumpCommand
+        arguments: ['@xterr.supervisor_bundle.annotation_supervisor_exporter']
+        tags:
+            - { name: 'console.command' }
